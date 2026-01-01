@@ -1,8 +1,8 @@
 ---
 title: Shot Match
 emoji: 📷
-colorFrom: amber
-colorTo: orange
+colorFrom: yellow
+colorTo: red
 sdk: docker
 app_port: 7860
 pinned: false
