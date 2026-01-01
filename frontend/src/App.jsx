@@ -54,17 +54,15 @@ function App() {
       <header className="border-b border-slate-700/50 bg-slate-900/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 via-orange-500 to-rose-500 flex items-center justify-center shadow-lg shadow-orange-500/25">
-              <svg className="w-6 h-6" viewBox="0 0 32 32" fill="none">
-                {/* Back frame - slightly offset */}
-                <rect x="6" y="8" width="16" height="12" rx="2" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+              <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
+                {/* Back frame - offset for depth */}
+                <rect x="3" y="5" width="16" height="12" rx="2" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" />
                 {/* Front frame - main */}
-                <rect x="10" y="12" width="16" height="12" rx="2" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.1)" />
-                {/* Aperture blades in center of front frame */}
-                <g transform="translate(18, 18)">
-                  <circle r="4" stroke="white" strokeWidth="1.5" fill="none" />
-                  <circle r="1.5" fill="white" />
-                </g>
+                <rect x="8" y="10" width="16" height="12" rx="2" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.15)" />
+                {/* Lens/aperture centered */}
+                <circle cx="16" cy="16" r="4.5" stroke="white" strokeWidth="1.5" fill="none" />
+                <circle cx="16" cy="16" r="1.75" fill="white" />
               </svg>
             </div>
             <div>
