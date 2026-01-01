@@ -116,8 +116,22 @@ function App() {
       </main>
 
       <footer className="border-t border-slate-700/50 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 py-6 text-center text-sm text-slate-500">
-          FrameMatch by e-studios | Powered by AI
+        <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-sm text-slate-500">
+          <span>
+            FrameMatch by{' '}
+            <a href="https://www.e-studios.net" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
+              e-studios
+            </a>
+          </span>
+          <span className="hidden sm:inline">|</span>
+          <a
+            href="https://paypal.me/elvisibrahimi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-amber-500 hover:text-amber-400 transition-colors"
+          >
+            Support with a donation
+          </a>
         </div>
       </footer>
     </div>
