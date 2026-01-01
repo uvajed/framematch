@@ -56,22 +56,22 @@ function App() {
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 via-rose-600 to-red-700 flex items-center justify-center shadow-lg shadow-red-500/30">
               <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
-                {/* Eye outline */}
-                <path
-                  d="M2 16C2 16 7 6 16 6C25 6 30 16 30 16C30 16 25 26 16 26C7 26 2 16 2 16Z"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  fill="rgba(255,255,255,0.1)"
-                  strokeLinejoin="round"
-                />
-                {/* Iris outer ring */}
-                <circle cx="16" cy="16" r="6" stroke="white" strokeWidth="1.5" fill="rgba(255,255,255,0.15)" />
-                {/* Iris inner detail */}
-                <circle cx="16" cy="16" r="3.5" stroke="rgba(255,255,255,0.7)" strokeWidth="1" fill="none" />
-                {/* Pupil */}
-                <circle cx="16" cy="16" r="2" fill="white" />
-                {/* Highlight reflection */}
-                <circle cx="18" cy="14" r="1" fill="white" opacity="0.6" />
+                {/* Film strip body */}
+                <rect x="6" y="4" width="20" height="24" rx="2" stroke="white" strokeWidth="1.5" fill="rgba(255,255,255,0.1)" />
+                {/* Sprocket holes left */}
+                <rect x="8" y="6" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
+                <rect x="8" y="12" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
+                <rect x="8" y="18" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
+                <rect x="8" y="24" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
+                {/* Sprocket holes right */}
+                <rect x="21" y="6" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
+                <rect x="21" y="12" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
+                <rect x="21" y="18" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
+                <rect x="21" y="24" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
+                {/* Film frame */}
+                <rect x="12" y="10" width="8" height="6" rx="1" stroke="white" strokeWidth="1.5" fill="rgba(255,255,255,0.2)" />
+                {/* Play triangle in frame */}
+                <path d="M14 12L14 14.5L17 13.25Z" fill="white" />
               </svg>
             </div>
             <div>
