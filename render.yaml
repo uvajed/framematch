@@ -1,0 +1,21 @@
+services:
+  # Backend API
+  - type: web
+    name: shottool-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /api/health
+
+  # Frontend
+  - type: web
+    name: shottool-web
+    runtime: static
+    buildCommand: cd frontend && npm ci && VITE_API_URL=https://shottool-api.onrender.com npm run build
+    staticPublishPath: ./frontend/dist
+    plan: free
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
