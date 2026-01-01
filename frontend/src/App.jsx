@@ -54,24 +54,18 @@ function App() {
       <header className="border-b border-slate-700/50 bg-slate-900/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 via-rose-600 to-red-700 flex items-center justify-center shadow-lg shadow-red-500/30">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/40">
               <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
-                {/* Film strip body */}
-                <rect x="6" y="4" width="20" height="24" rx="2" stroke="white" strokeWidth="1.5" fill="rgba(255,255,255,0.1)" />
-                {/* Sprocket holes left */}
-                <rect x="8" y="6" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
-                <rect x="8" y="12" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
-                <rect x="8" y="18" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
-                <rect x="8" y="24" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
-                {/* Sprocket holes right */}
-                <rect x="21" y="6" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
-                <rect x="21" y="12" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
-                <rect x="21" y="18" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
-                <rect x="21" y="24" width="3" height="2" rx="0.5" fill="white" opacity="0.8" />
-                {/* Film frame */}
-                <rect x="12" y="10" width="8" height="6" rx="1" stroke="white" strokeWidth="1.5" fill="rgba(255,255,255,0.2)" />
-                {/* Play triangle in frame */}
-                <path d="M14 12L14 14.5L17 13.25Z" fill="white" />
+                {/* F letter */}
+                <path
+                  d="M6 6H15V9H9V14H14V17H9V26H6V6Z"
+                  fill="white"
+                />
+                {/* M letter */}
+                <path
+                  d="M17 6H20L23 14L26 6H29V26H26V12L23 20H23L20 12V26H17V6Z"
+                  fill="white"
+                />
               </svg>
             </div>
             <div>
