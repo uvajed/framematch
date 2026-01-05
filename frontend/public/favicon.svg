@@ -1,15 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
   <defs>
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f97316"/>
-      <stop offset="50%" stop-color="#ea580c"/>
-      <stop offset="100%" stop-color="#dc2626"/>
+      <stop offset="0%" stop-color="#f5a623"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
     </linearGradient>
   </defs>
-  <!-- Background -->
-  <rect width="32" height="32" rx="8" fill="url(#bgGrad)"/>
-  <!-- F letter -->
-  <path d="M6 6H15V9H9V14H14V17H9V26H6V6Z" fill="white"/>
-  <!-- M letter -->
-  <path d="M17 6H20L23 14L26 6H29V26H26V12L23 20H23L20 12V26H17V6Z" fill="white"/>
+  <!-- Circular background -->
+  <circle cx="16" cy="16" r="16" fill="url(#bgGrad)"/>
+  <!-- Aperture/lens icon -->
+  <circle cx="16" cy="16" r="10" stroke="#0a0a0b" stroke-width="1.5" fill="none"/>
+  <circle cx="16" cy="16" r="4" stroke="#0a0a0b" stroke-width="1.5" fill="none"/>
+  <!-- Crosshair marks -->
+  <path d="M16 6v4M16 22v4M6 16h4M22 16h4" stroke="#0a0a0b" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Diagonal marks (lighter) -->
+  <path d="M8.34 8.34l2.12 2.12M21.54 21.54l2.12 2.12M8.34 23.66l2.12-2.12M21.54 10.46l2.12-2.12" stroke="#0a0a0b" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
 </svg>
