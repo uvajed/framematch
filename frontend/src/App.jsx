@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import ImageUploader from './components/ImageUploader'
 import AnalysisResults from './components/AnalysisResults'
 import LoadingAnalysis from './components/LoadingAnalysis'
@@ -36,11 +36,9 @@ function App() {
       const result = await response.json()
       setAnalysisResult(result)
 
-      // Track analysis count for donation prompt
       const count = parseInt(localStorage.getItem('analysisCount') || '0') + 1
       localStorage.setItem('analysisCount', count.toString())
 
-      // Show donation prompt every 5 analyses (after 5, 10, 15, etc.)
       const lastPrompt = parseInt(localStorage.getItem('lastDonationPrompt') || '0')
       if (count >= 5 && count - lastPrompt >= 5) {
         setTimeout(() => setShowDonationPrompt(true), 1500)
@@ -62,124 +60,248 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <header className="border-b border-slate-700/50 bg-slate-900/50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 via-orange-600 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/40">
-              <svg className="w-8 h-8" viewBox="0 0 32 32" fill="none">
-                {/* F letter */}
-                <path
-                  d="M6 6H15V9H9V14H14V17H9V26H6V6Z"
-                  fill="white"
-                />
-                {/* M letter */}
-                <path
-                  d="M17 6H20L23 14L26 6H29V26H26V12L23 20H23L20 12V26H17V6Z"
-                  fill="white"
-                />
-              </svg>
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg-primary)' }}>
+      {/* Film grain overlay */}
+      <div className="film-grain film-grain-animated" />
+
+      {/* Header */}
+      <header className="relative z-10 border-b" style={{ borderColor: 'var(--border-dim)', background: 'var(--bg-secondary)' }}>
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                {/* Lens/aperture icon */}
+                <div className="w-11 h-11 rounded-full flex items-center justify-center"
+                     style={{
+                       background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary))',
+                       boxShadow: '0 0 20px var(--accent-glow)'
+                     }}>
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" style={{ color: 'var(--bg-primary)' }}>
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                    <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                    <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.5" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h1 className="font-display text-2xl tracking-wider" style={{ color: 'var(--text-primary)' }}>
+                  FRAMEMATCH
+                </h1>
+                <p className="text-xs font-mono uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>
+                  Shot Analysis System
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-white">FrameMatch</h1>
-              <p className="text-xs text-slate-400">Analyze & Recreate Any Shot</p>
+
+            {/* Status indicator & actions */}
+            <div className="flex items-center gap-6">
+              {/* Recording indicator */}
+              <div className="hidden sm:flex items-center gap-2">
+                <span className="indicator-dot rec-indicator" style={{ background: 'var(--tech-red)' }} />
+                <span className="text-xs font-mono uppercase" style={{ color: 'var(--text-tertiary)' }}>
+                  {isAnalyzing ? 'Processing' : 'Ready'}
+                </span>
+              </div>
+
+              {(image || analysisResult) && (
+                <button
+                  onClick={handleReset}
+                  className="group flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200"
+                  style={{
+                    color: 'var(--text-secondary)',
+                    background: 'var(--surface-default)',
+                    border: '1px solid var(--border-default)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'var(--surface-bright)'
+                    e.currentTarget.style.borderColor = 'var(--border-bright)'
+                    e.currentTarget.style.color = 'var(--text-primary)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'var(--surface-default)'
+                    e.currentTarget.style.borderColor = 'var(--border-default)'
+                    e.currentTarget.style.color = 'var(--text-secondary)'
+                  }}
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+                  </svg>
+                  <span>New Analysis</span>
+                </button>
+              )}
             </div>
           </div>
-          {(image || analysisResult) && (
-            <button
-              onClick={handleReset}
-              className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white border border-slate-600 hover:border-slate-500 rounded-lg transition-colors"
-            >
-              New Analysis
-            </button>
-          )}
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        {!image && !analysisResult && (
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Decode Any Shot
-            </h2>
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              Upload a reference image from a film, photograph, or screenshot.
-              Get instant technical analysis of camera settings, lighting, and color grade.
-            </p>
-          </div>
-        )}
+      {/* Main content */}
+      <main className="flex-1 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          {/* Hero section - only show when no image */}
+          {!image && !analysisResult && (
+            <div className="text-center mb-16 animate-fade-in-up">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
+                   style={{ background: 'var(--surface-default)', border: '1px solid var(--border-dim)' }}>
+                <span className="indicator-dot active" style={{ background: 'var(--tech-green)' }} />
+                <span className="text-xs font-mono uppercase tracking-wide" style={{ color: 'var(--text-tertiary)' }}>
+                  AI-Powered Analysis
+                </span>
+              </div>
 
-        {!image && <ImageUploader onUpload={handleImageUpload} />}
+              <h2 className="font-display text-5xl md:text-6xl lg:text-7xl mb-6"
+                  style={{ color: 'var(--text-primary)', lineHeight: 1.1 }}>
+                DECODE ANY
+                <span className="block" style={{ color: 'var(--accent-primary)' }}>CINEMATIC SHOT</span>
+              </h2>
 
-        {isAnalyzing && <LoadingAnalysis imagePreview={imagePreview} />}
+              <p className="text-lg max-w-xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                Upload a reference frame from any film, photograph, or video.
+                Get instant technical breakdowns of camera settings, lighting setups, and color grades.
+              </p>
+            </div>
+          )}
 
-        {error && (
-          <div className="max-w-md mx-auto mt-8 p-4 bg-red-500/10 border border-red-500/50 rounded-lg">
-            <p className="text-red-400 text-center">{error}</p>
-          </div>
-        )}
+          {/* Upload zone */}
+          {!image && <ImageUploader onUpload={handleImageUpload} />}
 
-        {analysisResult && (
-          <AnalysisResults
-            result={analysisResult}
-            imagePreview={imagePreview}
-          />
-        )}
+          {/* Loading state */}
+          {isAnalyzing && <LoadingAnalysis imagePreview={imagePreview} />}
+
+          {/* Error state */}
+          {error && (
+            <div className="max-w-md mx-auto mt-8 p-6 rounded-lg animate-fade-in-up"
+                 style={{
+                   background: 'rgba(239, 68, 68, 0.1)',
+                   border: '1px solid rgba(239, 68, 68, 0.3)'
+                 }}>
+              <div className="flex items-center gap-3">
+                <svg className="w-5 h-5" style={{ color: 'var(--tech-red)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p style={{ color: 'var(--tech-red)' }}>{error}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Results */}
+          {analysisResult && (
+            <AnalysisResults
+              result={analysisResult}
+              imagePreview={imagePreview}
+            />
+          )}
+        </div>
       </main>
 
-      <footer className="border-t border-slate-700/50 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-sm text-slate-500">
-          <span>
-            FrameMatch by{' '}
-            <a href="https://www.e-studios.net" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
-              e-studios
+      {/* Footer */}
+      <footer className="relative z-10 border-t" style={{ borderColor: 'var(--border-dim)', background: 'var(--bg-secondary)' }}>
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-6">
+              <span className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
+                Built by{' '}
+                <a href="https://www.e-studios.net"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="transition-colors"
+                   style={{ color: 'var(--text-secondary)' }}
+                   onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent-primary)'}
+                   onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}>
+                  e-studios
+                </a>
+              </span>
+              <span className="hidden sm:block w-px h-4" style={{ background: 'var(--border-default)' }} />
+              <span className="hidden sm:block text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
+                v1.0
+              </span>
+            </div>
+
+            <a
+              href="https://paypal.me/elvisbrahm"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200"
+              style={{
+                background: 'var(--surface-dim)',
+                border: '1px solid var(--border-dim)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(245, 166, 35, 0.1)'
+                e.currentTarget.style.borderColor = 'rgba(245, 166, 35, 0.3)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--surface-dim)'
+                e.currentTarget.style.borderColor = 'var(--border-dim)'
+              }}
+            >
+              <svg className="w-4 h-4" style={{ color: 'var(--accent-primary)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+              <span className="text-sm" style={{ color: 'var(--accent-primary)' }}>
+                Support Development
+              </span>
             </a>
-          </span>
-          <span className="hidden sm:inline">|</span>
-          <a
-            href="https://paypal.me/elvisbrahm"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-amber-500 hover:text-amber-400 transition-colors"
-          >
-            Support with a donation
-          </a>
+          </div>
         </div>
       </footer>
 
       {/* Donation Prompt Modal */}
       {showDonationPrompt && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8 max-w-md w-full shadow-2xl">
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
-                <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4"
+             style={{ background: 'rgba(0, 0, 0, 0.8)', backdropFilter: 'blur(8px)' }}>
+          <div className="w-full max-w-md rounded-2xl overflow-hidden animate-fade-in-up"
+               style={{
+                 background: 'var(--bg-secondary)',
+                 border: '1px solid var(--border-default)',
+                 boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5)'
+               }}>
+            {/* Modal header with accent strip */}
+            <div className="h-1" style={{ background: 'linear-gradient(90deg, var(--accent-primary), var(--accent-tertiary))' }} />
+
+            <div className="p-8">
+              <div className="text-center">
+                {/* Icon */}
+                <div className="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center"
+                     style={{
+                       background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary))',
+                       boxShadow: '0 0 30px var(--accent-glow)'
+                     }}>
+                  <svg className="w-8 h-8" style={{ color: 'var(--bg-primary)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                </div>
+
+                <h3 className="font-display text-2xl tracking-wide mb-3" style={{ color: 'var(--text-primary)' }}>
+                  ENJOYING FRAMEMATCH?
+                </h3>
+                <p className="text-sm leading-relaxed mb-8" style={{ color: 'var(--text-secondary)' }}>
+                  This tool is free and ad-free. If it's helping your creative work,
+                  consider supporting its development with a small donation.
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <a
+                    href="https://paypal.me/elvisbrahm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 btn-primary text-center"
+                  >
+                    Donate via PayPal
+                  </a>
+                  <button
+                    onClick={() => setShowDonationPrompt(false)}
+                    className="flex-1 btn-secondary"
+                  >
+                    Maybe Later
+                  </button>
+                </div>
+
+                <p className="text-xs mt-6" style={{ color: 'var(--text-muted)' }}>
+                  You won't see this again for a while
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Enjoying FrameMatch?</h3>
-              <p className="text-slate-400 mb-6">
-                This tool is free and ad-free. If it's helping your creative work, consider supporting its development with a small donation.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <a
-                  href="https://paypal.me/elvisbrahm"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white font-medium rounded-lg hover:from-orange-600 hover:to-red-700 transition-all"
-                >
-                  Donate via PayPal
-                </a>
-                <button
-                  onClick={() => setShowDonationPrompt(false)}
-                  className="flex-1 px-6 py-3 border border-slate-600 text-slate-300 font-medium rounded-lg hover:bg-slate-700/50 transition-colors"
-                >
-                  Maybe Later
-                </button>
-              </div>
-              <p className="text-xs text-slate-500 mt-4">
-                You won't see this again for a while
-              </p>
             </div>
           </div>
         </div>
